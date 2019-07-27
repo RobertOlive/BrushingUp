@@ -19,7 +19,7 @@ var connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "",
+  password: "password",
   database: "quotes_db"
 });
 
@@ -33,17 +33,26 @@ connection.connect(function(err) {
 
 // Serve index.handlebars to the root route, populated with all quote data.
 app.get("/", function(req, res) {
-
+  connection.query("SELECT * FROM quotes", function(err, result) {
+    if (err) throw err;
+    res.render("index", {quotes:result});
+  })
 });
 
 // Serve single-quote.handlebars, populated with data that corresponds to the ID in the route URL.
 app.get("/:id", function(req, res) {
-
+  connection.query("SELECT * FROM quotes WHERE id = ?", req.params.id, function(err, result) {
+    if (err) throw err;
+    res.render("single-quote", result[0])
+  })
 });
 
 // Create a new quote using the data posted from the front-end.
 app.post("/api/quotes", function(req, res) {
-
+  console.log(req.body)
+  connection.query("INSERT INTO quotes (author, quote) VALUES (?, ?)", [req.body.author, req.body.quote], function(err, result) {
+    console.log(result)
+  })
 });
 
 // Delete a quote based off of the ID in the route URL.
