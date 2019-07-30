@@ -52,6 +52,7 @@ app.post("/api/quotes", function(req, res) {
   console.log(req.body)
   connection.query("INSERT INTO quotes (author, quote) VALUES (?, ?)", [req.body.author, req.body.quote], function(err, result) {
     console.log(result)
+    res.json(result)
   })
 });
 
@@ -59,12 +60,16 @@ app.post("/api/quotes", function(req, res) {
 app.delete("/api/quotes/:id", function(req, res) {
   connection.query("DELETE FROM quotes WHERE id = ?", req.params.id, function(err, result) {
     console.log(result);
+    res.json(result);
   })
 });
 
 // Update a quote.
 app.put("/api/quotes/:id", function(req, res) {
-
+  connection.query("UPDATE quotes SET quote = ? WHERE id = ?", [req.body.quote, req.params.id], function(err, result) {
+    console.log(result);
+    res.json(result);
+  })
 });
 
 // Start our server so that it can begin listening to client requests.

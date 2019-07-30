@@ -10,7 +10,7 @@ $(function() {
       function() {
         console.log("deleted id ", id);
         // Reload the page to get the updated list
-        location.reload();
+        location.assign("/");
       }
     );
   });
