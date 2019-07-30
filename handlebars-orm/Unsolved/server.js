@@ -57,7 +57,9 @@ app.post("/api/quotes", function(req, res) {
 
 // Delete a quote based off of the ID in the route URL.
 app.delete("/api/quotes/:id", function(req, res) {
-
+  connection.query("DELETE FROM quotes WHERE id = ?", req.params.id, function(err, result) {
+    console.log(result);
+  })
 });
 
 // Update a quote.
