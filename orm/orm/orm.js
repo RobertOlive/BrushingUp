@@ -19,6 +19,14 @@ var orm = {
                 console.log(result);
             }
         )
+    },
+    leftJoin: function(selection, leftTable, rightTable, leftColumn, rightColumn) {
+        var query = `SELECT ${selection} FROM ${leftTable} AS tOne LEFT JOIN ${rightTable} AS tTwo ON tOne.${leftColumn} = tTwo.${rightColumn}`
+        console.log(query);
+        connection.query(query, function(err, result) {
+            if (err) throw err;
+            console.log(result);
+        })
     }
 }
 
